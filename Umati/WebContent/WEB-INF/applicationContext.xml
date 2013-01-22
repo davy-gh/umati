@@ -9,9 +9,9 @@
 
 	<context:annotation-config />
 	<context:spring-configured />
-	<context:component-scan base-package="cz.magix.maarifa" />
+	<context:component-scan base-package="cz.cvut.fit.umati" />
 
 	<bean id="log" class="java.util.logging.Logger" factory-method="getLogger">
-		<constructor-arg value="cz.magix.maarifa" />
+		<constructor-arg value="cz.cvut.fit.umati" />
 	</bean>
 </beans>
