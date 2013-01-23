@@ -8,6 +8,7 @@
 	<http use-expressions="true">
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<form-login />
+		<logout />
 	</http>
 
 	<authentication-manager>

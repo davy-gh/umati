@@ -5,6 +5,8 @@ import java.net.URI;
 import cz.cvut.fit.umati.constant.XmlDataType;
 
 public class Parameter {
+	private String parameter;
+	
 	private XmlDataType dataType;
 	
 	private URI semanticAnnotation;
@@ -14,6 +16,14 @@ public class Parameter {
 	 */
 	public XmlDataType getDataType() {
 		return dataType;
+	}
+
+	public String getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(String parameter) {
+		this.parameter = parameter;
 	}
 
 	public void setDataType(XmlDataType dataType) {

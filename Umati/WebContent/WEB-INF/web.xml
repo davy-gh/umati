@@ -44,7 +44,7 @@
 		<servlet-class>cz.cvut.fit.umati.VaadinSpringAppServlet</servlet-class>
 		<init-param>
 			<param-name>applicationBean</param-name>
-			<param-value>umatiUserInterface</param-value>
+			<param-value>umatiApplication</param-value>
 		</init-param>
 	</servlet>
 
