@@ -12,7 +12,8 @@ import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import cz.cvut.fit.umati.InMemoryData;
+import cz.cvut.fit.umati.InMemoryUserData;
+import cz.cvut.fit.umati.InMemoryWebApiData;
 import cz.cvut.fit.umati.model.User;
 import cz.cvut.fit.umati.ui.composite.MainTable;
 import cz.cvut.fit.umati.ui.composite.MainToolbar;
@@ -23,7 +24,10 @@ public class UmatiApplication extends Application {
 	private static final long serialVersionUID = 2L;
 
 	@Autowired
-	private InMemoryData inMemoryData;
+	private InMemoryWebApiData inMemoryWebApiData;
+
+	@Autowired
+	private InMemoryUserData inMemoryUserData;
 
 	@Autowired
 	private MainTable mainTable;
@@ -38,8 +42,8 @@ public class UmatiApplication extends Application {
 		 */
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (!inMemoryData.getUserSet().contains(auth.getName())) {
-			inMemoryData.getUserSet().add(new User(auth.getName()));
+		if (!inMemoryUserData.containsId(auth.getName())) {
+			inMemoryUserData.addBean(new User(auth.getName()));
 		}
 		mainToolbar.getLoggedUser().setValue(auth.getName());
 		mainToolbar.getLogoutLink().setResource(new ExternalResource("j_spring_security_logout"));

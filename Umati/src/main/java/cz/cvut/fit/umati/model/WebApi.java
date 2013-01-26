@@ -1,6 +1,7 @@
 package cz.cvut.fit.umati.model;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WebApi {
@@ -50,6 +51,14 @@ public class WebApi {
 	 */
 	private List<WebApiElaborated> webApiElaboratedList;
 
+	
+	/*
+	 * Constructor
+	 */
+	public WebApi() {
+		webApiElaboratedList = new ArrayList<WebApiElaborated>();
+	}
+	
 	/*
 	 * Getters & Setters
 	 */

@@ -2,29 +2,26 @@ package cz.cvut.fit.umati;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Set;
 
-import cz.cvut.fit.umati.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.vaadin.data.util.BeanItemContainer;
+
 import cz.cvut.fit.umati.model.WebApi;
 
 @org.springframework.stereotype.Component
 @org.springframework.context.annotation.Scope("singleton")
-public class InMemoryData {
-	private final Set<User> userSet;
-	
-	private final Set<WebApi> webApiSet;
-	
+public class InMemoryWebApiData extends BeanItemContainer<WebApi> {
+	private static final long serialVersionUID = 1L;
+
 	/*
 	 * Constructor
 	 */
-	public InMemoryData() {
-		// Init userSet 
-		userSet = new HashSet<User>();
-				
-		// TODO: Init and fill up Web Apis
-		webApiSet = new HashSet<WebApi>();
-		
+	@Autowired
+	public InMemoryWebApiData(@Value("cz.cvut.fit.umati.model.WebApi") Class<? super WebApi> type) throws IllegalArgumentException {
+		super(type);
+
 		try {
 			WebApi webApi1 = new WebApi();
 			webApi1.setName("Twitter API");
@@ -32,7 +29,7 @@ public class InMemoryData {
 			webApi1.setCategory("Social");
 			webApi1.setDocUrl(new URI("https://dev.twitter.com/docs"));
 			webApi1.setApiUrl(new URI("http://twitter.com/statuses/"));
-			webApiSet.add(webApi1);
+			addBean(webApi1);
 			
 			WebApi webApi2 = new WebApi();
 			webApi2.setName("Flickr API");
@@ -40,7 +37,7 @@ public class InMemoryData {
 			webApi2.setCategory("Photos");
 			webApi2.setDocUrl(new URI("http://www.flickr.com/services/api/"));
 			webApi2.setApiUrl(new URI("http://api.flickr.com/services/rest/"));
-			webApiSet.add(webApi2);
+			addBean(webApi2);
 
 			WebApi webApi3 = new WebApi();
 			webApi3.setName("Amazon eCommerce API");
@@ -48,7 +45,7 @@ public class InMemoryData {
 			webApi3.setCategory("Shopping");
 			webApi3.setDocUrl(new URI("https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html"));
 			webApi3.setApiUrl(new URI("http://webservices.amazon.com/"));
-			webApiSet.add(webApi3);
+			addBean(webApi3);
 
 			WebApi webApi4 = new WebApi();
 			webApi4.setName("Facebook API");
@@ -56,7 +53,7 @@ public class InMemoryData {
 			webApi4.setCategory("Social");
 			webApi4.setDocUrl(new URI("http://developers.facebook.com/"));
 			webApi4.setApiUrl(new URI("http://api.facebook.com/restserver.php"));
-			webApiSet.add(webApi4);
+			addBean(webApi4);
 
 			WebApi webApi5 = new WebApi();
 			webApi5.setName("Twilio API");
@@ -64,7 +61,7 @@ public class InMemoryData {
 			webApi5.setCategory("Telephony");
 			webApi5.setDocUrl(new URI("http://www.twilio.com"));
 			webApi5.setApiUrl(new URI("https://api.twilio.com/2008-08-01/"));
-			webApiSet.add(webApi5);
+			addBean(webApi5);
 
 			WebApi webApi6 = new WebApi();
 			webApi6.setName("Last.fm API");
@@ -72,20 +69,9 @@ public class InMemoryData {
 			webApi6.setCategory("Music");
 			webApi6.setDocUrl(new URI("http://www.last.fm/api"));
 			webApi6.setApiUrl(new URI("http://ws.audioscrobbler.com/2.0/"));
-			webApiSet.add(webApi6);
+			addBean(webApi6);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/*
-	 * Getters & Setters
-	 */
-	public Set<User> getUserSet() {
-		return userSet;
-	}
-
-	public Set<WebApi> getWebApiGroupSet() {
-		return webApiSet;
 	}
 }
