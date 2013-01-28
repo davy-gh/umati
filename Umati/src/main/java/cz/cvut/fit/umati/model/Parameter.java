@@ -4,11 +4,20 @@ import java.net.URI;
 
 import cz.cvut.fit.umati.constant.XmlDataType;
 
-public class Parameter {
+public class Parameter implements IQuestion {
+	/**
+	 * TODO: doc it
+	 */
 	private String parameter;
 	
+	/**
+	 * TODO: doc it
+	 */
 	private XmlDataType dataType;
 	
+	/**
+	 * TODO: doc it
+	 */
 	private URI semanticAnnotation;
 
 	/*

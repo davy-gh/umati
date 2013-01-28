@@ -18,7 +18,9 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
+import cz.cvut.fit.umati.InMemoryUserData;
 import cz.cvut.fit.umati.InMemoryWebApiData;
+import cz.cvut.fit.umati.model.User;
 import cz.cvut.fit.umati.model.WebApi;
 import cz.cvut.fit.umati.model.WebApiElaborated;
 import cz.cvut.fit.umati.ui.QuestionWindow;
@@ -54,6 +56,9 @@ public class MainTable extends CustomComponent {
 
 	@Autowired
 	private InMemoryWebApiData inMemoryWebApiData;
+
+	@Autowired
+	private InMemoryUserData inMemoryUserData;
 
 	@Autowired
 	private QuestionWindow questionWindow;
@@ -220,7 +225,14 @@ public class MainTable extends CustomComponent {
 			
 			if (actualWebApiElaborated == null) {
 				// Create new WebApiElaborated
-				actualWebApiElaborated = new WebApiElaborated(); 
+				actualWebApiElaborated = new WebApiElaborated();
+
+				// Find actual user from user list
+				for (User user : inMemoryUserData.getItemIds()) {
+					if (auth.getName().equals(user.getUserName())) {
+						actualWebApiElaborated.setUser(user);
+					}
+				}
 				
 				// Add to the list of APIs
 				webApi.getWebApiElaboratedList().add(actualWebApiElaborated);

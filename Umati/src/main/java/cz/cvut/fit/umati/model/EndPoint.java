@@ -1,38 +1,47 @@
 package cz.cvut.fit.umati.model;
 
-import java.util.Set;
+import java.net.URI;
 
-public class EndPoint {
-	private String endPoint;
+public class EndPoint extends AbstractQuestion<Parameter> {
+	/**
+	 * TODO: doc it
+	 */
+	private String endPointName;
 	
-	private int parameterNumber;
-	
-	private Set<Parameter> parameterSet;
+	/**
+	 * TODO: doc it
+	 */
+	private String endPointDescription;
+
+	/**
+	 * TODO: doc it
+	 */
+	private URI endPointUrl;
 
 	/*
 	 * Getters & Setters
 	 */
-	public int getParameterNumber() {
-		return parameterNumber;
+	public String getEndPointName() {
+		return endPointName;
 	}
 
-	public String getEndPoint() {
-		return endPoint;
+	public void setEndPointName(String endPointName) {
+		this.endPointName = endPointName;
 	}
 
-	public void setEndPoint(String endPoint) {
-		this.endPoint = endPoint;
+	public String getEndPointDescription() {
+		return endPointDescription;
 	}
 
-	public void setParameterNumber(int parameterNumber) {
-		this.parameterNumber = parameterNumber;
+	public void setEndPointDescription(String endPointDescription) {
+		this.endPointDescription = endPointDescription;
 	}
 
-	public Set<Parameter> getParameterSet() {
-		return parameterSet;
+	public URI getEndPointUrl() {
+		return endPointUrl;
 	}
 
-	public void setParameterSet(Set<Parameter> parameterSet) {
-		this.parameterSet = parameterSet;
+	public void setEndPointUrl(URI endPointUrl) {
+		this.endPointUrl = endPointUrl;
 	}
 }
