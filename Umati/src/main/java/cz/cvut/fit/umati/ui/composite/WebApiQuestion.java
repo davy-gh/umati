@@ -53,6 +53,14 @@ public class WebApiQuestion extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -81,14 +89,14 @@ public class WebApiQuestion extends CustomComponent {
 		// common part: create layout
 		mainLayout = new HorizontalLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("100%");
-		mainLayout.setHeight("100%");
-		mainLayout.setMargin(false);
+		mainLayout.setWidth("-1px");
+		mainLayout.setHeight("-1px");
+		mainLayout.setMargin(true);
 		mainLayout.setSpacing(true);
 		
 		// top-level component properties
-		setWidth("100.0%");
-		setHeight("100.0%");
+		setWidth("-1px");
+		setHeight("-1px");
 		
 		// numericLabel
 		numericLabel = new Label();

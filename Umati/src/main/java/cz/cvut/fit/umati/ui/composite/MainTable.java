@@ -125,6 +125,7 @@ public class MainTable extends CustomComponent {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				questionWindow.center();
+				questionWindow.setCaption(((WebApi) mainTable.getValue()).getName());
 				questionWindow.fireWindowOpen(getValue());
 				getApplication().getMainWindow().addWindow(questionWindow);
 			}

@@ -148,6 +148,22 @@ public class EndPointQuestion extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -192,15 +208,15 @@ public class EndPointQuestion extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("100%");
+		mainLayout.setWidth("-1px");
 		mainLayout.setHeight("-1px");
-		mainLayout.setMargin(false);
+		mainLayout.setMargin(true);
 		mainLayout.setSpacing(true);
 		mainLayout.setColumns(2);
 		mainLayout.setRows(4);
 		
 		// top-level component properties
-		setWidth("100.0%");
+		setWidth("-1px");
 		setHeight("-1px");
 		
 		// endPointUrlLabel

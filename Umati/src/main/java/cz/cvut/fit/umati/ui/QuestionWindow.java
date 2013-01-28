@@ -21,11 +21,11 @@ public class QuestionWindow extends Window {
 	@PostConstruct
 	public void init() {
 		setContent(questionComposite);
-		setWidth("500px");
-		setHeight("300px");
+		setModal(true);
 	}
 
 	public void fireWindowOpen(WebApiElaborated webApiElaborated) {
+		// Fire to composite
 		questionComposite.fireCompositeOpen(webApiElaborated);
 	}
 }
