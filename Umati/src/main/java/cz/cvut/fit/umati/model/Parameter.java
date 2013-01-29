@@ -1,7 +1,5 @@
 package cz.cvut.fit.umati.model;
 
-import java.net.URI;
-
 import cz.cvut.fit.umati.constant.XmlDataType;
 
 public class Parameter implements IQuestion {
@@ -18,7 +16,7 @@ public class Parameter implements IQuestion {
 	/**
 	 * TODO: doc it
 	 */
-	private URI semanticAnnotation;
+	private SemanticAnnotation semanticAnnotation;
 
 	/*
 	 * Getters & Setters
@@ -39,11 +37,11 @@ public class Parameter implements IQuestion {
 		this.dataType = dataType;
 	}
 
-	public URI getSemanticAnnotation() {
+	public SemanticAnnotation getSemanticAnnotation() {
 		return semanticAnnotation;
 	}
 
-	public void setSemanticAnnotation(URI semanticAnnotation) {
+	public void setSemanticAnnotation(SemanticAnnotation semanticAnnotation) {
 		this.semanticAnnotation = semanticAnnotation;
 	}
 }

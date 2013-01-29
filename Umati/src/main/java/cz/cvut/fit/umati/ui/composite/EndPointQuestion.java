@@ -208,6 +208,14 @@ public class EndPointQuestion extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -273,7 +281,7 @@ public class EndPointQuestion extends CustomComponent {
 		// endPointUrl
 		endPointUrl = new TextField();
 		endPointUrl.setImmediate(false);
-		endPointUrl.setWidth("-1px");
+		endPointUrl.setWidth("100.0%");
 		endPointUrl.setHeight("-1px");
 		endPointUrl.setRequired(true);
 		endPointUrl.setNullRepresentation("");
@@ -291,7 +299,7 @@ public class EndPointQuestion extends CustomComponent {
 		// endPointName
 		endPointName = new TextField();
 		endPointName.setImmediate(false);
-		endPointName.setWidth("-1px");
+		endPointName.setWidth("100.0%");
 		endPointName.setHeight("-1px");
 		endPointName.setNullRepresentation("");
 		mainLayout.addComponent(endPointName, 1, 1);
@@ -310,7 +318,6 @@ public class EndPointQuestion extends CustomComponent {
 		endPointDescription.setImmediate(false);
 		endPointDescription.setWidth("-1px");
 		endPointDescription.setHeight("-1px");
-		endPointDescription.setNullRepresentation("");
 		mainLayout.addComponent(endPointDescription, 1, 2);
 		
 		// numberOfParametersLabel
@@ -325,9 +332,10 @@ public class EndPointQuestion extends CustomComponent {
 		// numberOfParameters
 		numberOfParameters = new TextField();
 		numberOfParameters.setImmediate(false);
-		numberOfParameters.setWidth("-1px");
+		numberOfParameters.setWidth("50px");
 		numberOfParameters.setHeight("-1px");
 		numberOfParameters.setNullRepresentation("0");
+		numberOfParameters.setNullRepresentation("");
 		mainLayout.addComponent(numberOfParameters, 1, 3);
 		
 		return mainLayout;
