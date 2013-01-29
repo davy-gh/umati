@@ -18,7 +18,7 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	/*
 	 * Business methods
 	 */
-	
+
 	/**
 	 * TODO: doc it
 	 * 
@@ -27,7 +27,7 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	public int getNumberOfEntities() {
 		return numberOfEntities;
 	}
-	
+
 	/**
 	 * TODO: doc it
 	 * 
@@ -41,8 +41,8 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 			}
 		} else if (this.numberOfEntities > numberOfEntities) {
 			// Less elements in the field - remove some last fields
-			int index = this.numberOfEntities - numberOfEntities;
-			removeAllFromIndex(index);
+			int numberOfEntitiesToRemove = this.numberOfEntities - numberOfEntities;
+			removeAllFromIndex(numberOfEntitiesToRemove);
 		}
 
 		// Remember value
@@ -61,7 +61,7 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	/*
 	 * Private methods
 	 */
-	
+
 	/**
 	 * TODO: doc it
 	 */
@@ -80,12 +80,13 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	/**
 	 * TODO: doc it
 	 * 
-	 * @param index
+	 * @param numberEntitesToRemove
 	 */
-	private void removeAllFromIndex(int index) {
-		if (0 < index || index >= (subEntities.size() - 1)) {
-			for (int i = (subEntities.size() - 1); index > i; i--) {
-				subEntities.remove(i);
+	private void removeAllFromIndex(int numberEntitesToRemove) {
+
+		if (0 < numberEntitesToRemove || numberEntitesToRemove >= (subEntities.size() - 1)) {
+			for (int i = 0; i < numberEntitesToRemove; i++) {
+				subEntities.remove(subEntities.size() - 1);
 			}
 		}
 	}
