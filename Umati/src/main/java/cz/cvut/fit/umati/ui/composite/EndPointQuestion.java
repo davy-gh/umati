@@ -164,6 +164,50 @@ public class EndPointQuestion extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -176,8 +220,6 @@ public class EndPointQuestion extends CustomComponent {
 	public EndPointQuestion() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		// TODO add user code here
 	}
 
 	/*
@@ -232,7 +274,9 @@ public class EndPointQuestion extends CustomComponent {
 		endPointUrl = new TextField();
 		endPointUrl.setImmediate(false);
 		endPointUrl.setWidth("-1px");
-		endPointUrl.setHeight("24px");
+		endPointUrl.setHeight("-1px");
+		endPointUrl.setRequired(true);
+		endPointUrl.setNullRepresentation("");
 		mainLayout.addComponent(endPointUrl, 1, 0);
 		
 		// endPointNameLabel
@@ -249,6 +293,7 @@ public class EndPointQuestion extends CustomComponent {
 		endPointName.setImmediate(false);
 		endPointName.setWidth("-1px");
 		endPointName.setHeight("-1px");
+		endPointName.setNullRepresentation("");
 		mainLayout.addComponent(endPointName, 1, 1);
 		
 		// endPointDescriptionLabel
@@ -265,6 +310,7 @@ public class EndPointQuestion extends CustomComponent {
 		endPointDescription.setImmediate(false);
 		endPointDescription.setWidth("-1px");
 		endPointDescription.setHeight("-1px");
+		endPointDescription.setNullRepresentation("");
 		mainLayout.addComponent(endPointDescription, 1, 2);
 		
 		// numberOfParametersLabel
@@ -281,6 +327,7 @@ public class EndPointQuestion extends CustomComponent {
 		numberOfParameters.setImmediate(false);
 		numberOfParameters.setWidth("-1px");
 		numberOfParameters.setHeight("-1px");
+		numberOfParameters.setNullRepresentation("0");
 		mainLayout.addComponent(numberOfParameters, 1, 3);
 		
 		return mainLayout;

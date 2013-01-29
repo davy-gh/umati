@@ -61,6 +61,14 @@ public class WebApiQuestion extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -73,8 +81,6 @@ public class WebApiQuestion extends CustomComponent {
 	public WebApiQuestion() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		// TODO add user code here
 	}
 
 	/*
@@ -112,6 +118,7 @@ public class WebApiQuestion extends CustomComponent {
 		numericInputField.setImmediate(false);
 		numericInputField.setWidth("-1px");
 		numericInputField.setHeight("-1px");
+		numericInputField.setNullRepresentation("0");
 		mainLayout.addComponent(numericInputField);
 		mainLayout.setComponentAlignment(numericInputField, new Alignment(33));
 		

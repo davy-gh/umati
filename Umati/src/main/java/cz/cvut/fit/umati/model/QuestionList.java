@@ -39,9 +39,9 @@ public class QuestionList {
 	/*
 	 * Business Methods - Writers
 	 */
-	
+
 	/**
-	 * TODO: doc it 
+	 * TODO: doc it
 	 */
 	public void rebuildHelperList() {
 		// First, clean everything
@@ -81,7 +81,6 @@ public class QuestionList {
 	 * TODO: doc it
 	 */
 	public IQuestion getActual() {
-		//TODO: kontrola na velikost pole
 		return helperList.get(helperIndex);
 	}
 
@@ -144,7 +143,7 @@ public class QuestionList {
 	/*
 	 * Private methods
 	 */
-	
+
 	/**
 	 * TODO: doc it
 	 * 
@@ -162,7 +161,7 @@ public class QuestionList {
 			}
 		}
 	}
-	
+
 	/**
 	 * Check for uniqueness when adding to the helperList
 	 * 

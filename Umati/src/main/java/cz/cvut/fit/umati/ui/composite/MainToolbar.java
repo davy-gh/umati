@@ -53,8 +53,6 @@ public class MainToolbar extends CustomComponent {
 	public MainToolbar() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		// TODO add user code here
 	}
 
 	/*

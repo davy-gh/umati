@@ -36,12 +36,16 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	public void setNumberOfEntities(int numberOfEntities) {
 		if (this.numberOfEntities < numberOfEntities) {
 			// It's bigger = add more elements to the field
-			for (int i = 0; i < numberOfEntities; i++) {
+			int numberOfEntitiesToAdd = numberOfEntities - this.numberOfEntities;
+			
+			for (int i = 0; i < numberOfEntitiesToAdd; i++) {
 				createToEnd();
 			}
+			
 		} else if (this.numberOfEntities > numberOfEntities) {
 			// Less elements in the field - remove some last fields
 			int numberOfEntitiesToRemove = this.numberOfEntities - numberOfEntities;
+
 			removeAllFromIndex(numberOfEntitiesToRemove);
 		}
 

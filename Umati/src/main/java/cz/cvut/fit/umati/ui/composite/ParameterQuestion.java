@@ -36,6 +36,10 @@ public class ParameterQuestion extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -52,8 +56,6 @@ public class ParameterQuestion extends CustomComponent {
 	public ParameterQuestion() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		// TODO add user code here
 	}
 
 	
@@ -78,6 +80,7 @@ public class ParameterQuestion extends CustomComponent {
 		mainLayout.setWidth("-1px");
 		mainLayout.setHeight("-1px");
 		mainLayout.setMargin(true);
+		mainLayout.setSpacing(true);
 		mainLayout.setColumns(2);
 		mainLayout.setRows(2);
 		
