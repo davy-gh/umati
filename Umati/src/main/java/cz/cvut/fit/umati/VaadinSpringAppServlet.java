@@ -35,8 +35,6 @@ public class VaadinSpringAppServlet extends AbstractApplicationServlet {
 	}
 
 	protected Application getNewApplication(HttpServletRequest request) {
-		System.out.println("Nova instance aplikace");
-		
 		return (Application) ctx.getBean(applicationBean);
 	}
 }
