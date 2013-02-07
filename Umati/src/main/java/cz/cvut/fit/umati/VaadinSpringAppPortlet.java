@@ -5,7 +5,7 @@ import javax.portlet.PortletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.portlet.context.PortletApplicationContextUtils;
+import org.springframework.web.portlet.context.XmlPortletApplicationContext;
 
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.AbstractApplicationPortlet;
@@ -24,12 +24,11 @@ public class VaadinSpringAppPortlet extends AbstractApplicationPortlet {
 			throw new PortletException("ApplicationBean not specified in servlet parameters");
 		}
 
-		ctx = PortletApplicationContextUtils.getWebApplicationContext(portletConfig.getPortletContext());
+		ctx = new XmlPortletApplicationContext(); 
 		applicationClass = (Class<? extends Application>) ctx.getType(applicationBean);
 	}
 
 	protected Class<? extends Application> getApplicationClass() throws ClassNotFoundException {
-		System.out.println("Tohle neco dela??");
 		return applicationClass;
 	}
 
