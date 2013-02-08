@@ -9,7 +9,7 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * TODO: doc it
 	 */
 	private int numberOfEntities;
-	
+
 	/**
 	 * TODO: doc it
 	 */
@@ -34,7 +34,7 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	public void setSubEntitiesClass(Class<? extends T> subEntitiesClass) {
 		this.subEntitiesClass = subEntitiesClass;
 	}
-	
+
 	/*
 	 * Business methods
 	 */
@@ -43,17 +43,17 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * TODO: doc it
 	 * 
 	 * @param parameterNumber
-	 * @throws QuestionListException 
+	 * @throws QuestionListException
 	 */
 	public void setNumberOfEntities(int numberOfEntities) throws QuestionListException {
 		if (this.numberOfEntities < numberOfEntities) {
 			// It's bigger = add more elements to the field
 			int numberOfEntitiesToAdd = numberOfEntities - this.numberOfEntities;
-			
+
 			for (int i = 0; i < numberOfEntitiesToAdd; i++) {
 				createToEnd();
 			}
-			
+
 		} else if (this.numberOfEntities > numberOfEntities) {
 			// Less elements in the field - remove some last fields
 			int numberOfEntitiesToRemove = this.numberOfEntities - numberOfEntities;
@@ -80,25 +80,24 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 
 	/**
 	 * TODO: doc it
-	 * @throws QuestionListException 
+	 * 
+	 * @throws QuestionListException
 	 */
 	@SuppressWarnings("unchecked")
 	private void createToEnd() throws QuestionListException {
 		if (subEntitiesClass == null) {
-			
-			//TODO: tohle zpusobuje warning - existuje lepsi reseni??
-			subEntitiesClass = (Class<? extends T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
-			if (subEntitiesClass.isInterface()) {
-				throw new QuestionListException("Try to instatiate interface: " + subEntitiesClass.getName() + " which is not possible");
-			}
+			// TODO: tohle zpusobuje warning - existuje lepsi reseni??
+			subEntitiesClass = (Class<? extends T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		}
-		
-		try {
-			T instance = (T) subEntitiesClass.newInstance(); 
-			subEntities.add(instance);
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+
+		if (!subEntitiesClass.isInterface()) {
+			try {
+				T instance = (T) subEntitiesClass.newInstance();
+				subEntities.add(instance);
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

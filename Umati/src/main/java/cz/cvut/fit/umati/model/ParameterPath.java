@@ -1,7 +1,10 @@
 package cz.cvut.fit.umati.model;
 
 import cz.cvut.fit.umati.constants.XmlDataType;
+import cz.cvut.fit.umati.ui.annotations.View;
+import cz.cvut.fit.umati.ui.composite.EndPointQueryQuestion;
 
+@View(viewClass = EndPointQueryQuestion.class)
 public class ParameterPath implements IQuestion {
 	/**
 	 * TODO: doc it

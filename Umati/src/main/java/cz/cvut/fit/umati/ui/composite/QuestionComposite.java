@@ -178,6 +178,10 @@ public class QuestionComposite extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
+	
+
+	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
+
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -526,8 +530,8 @@ public class QuestionComposite extends CustomComponent {
 		// questionPanelLayout
 		questionPanelLayout = new VerticalLayout();
 		questionPanelLayout.setImmediate(false);
-		questionPanelLayout.setWidth("-1px");
-		questionPanelLayout.setHeight("-1px");
+		questionPanelLayout.setWidth("100.0%");
+		questionPanelLayout.setHeight("100.0%");
 		questionPanelLayout.setMargin(false);
 		questionPanel.setContent(questionPanelLayout);
 		
