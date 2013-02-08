@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cz.cvut.fit.umati.constant;
+package cz.cvut.fit.umati.constants;
 
 /**
  * @author davy

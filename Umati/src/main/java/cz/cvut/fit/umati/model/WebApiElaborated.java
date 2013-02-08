@@ -1,7 +1,8 @@
 package cz.cvut.fit.umati.model;
 
 
-public class WebApiElaborated extends AbstractQuestion<EndPoint> {
+
+public class WebApiElaborated extends AbstractQuestion<IEndPoint> {
 	private User user;
 	
 	/*

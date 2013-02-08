@@ -2,12 +2,17 @@ package cz.cvut.fit.umati.model;
 
 import java.net.URI;
 
-public class EndPoint extends AbstractQuestion<Parameter> {
+public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IEndPoint {
+	/**
+	 * TODO: doc it
+	 */
+	public static final String description = "Parameters are specified by METHOD and PATH part of URL";
+
 	/**
 	 * TODO: doc it
 	 */
 	private String endPointName;
-	
+
 	/**
 	 * TODO: doc it
 	 */

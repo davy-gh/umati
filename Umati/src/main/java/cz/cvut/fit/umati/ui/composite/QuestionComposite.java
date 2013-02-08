@@ -23,10 +23,11 @@ import com.vaadin.ui.Window;
 
 import cz.cvut.fit.umati.InMemoryUserData;
 import cz.cvut.fit.umati.InMemoryWebApiData;
-import cz.cvut.fit.umati.constant.XmlDataType;
-import cz.cvut.fit.umati.model.EndPoint;
+import cz.cvut.fit.umati.constants.XmlDataType;
+import cz.cvut.fit.umati.model.EndPointQuery;
+import cz.cvut.fit.umati.model.IEndPoint;
 import cz.cvut.fit.umati.model.IQuestion;
-import cz.cvut.fit.umati.model.Parameter;
+import cz.cvut.fit.umati.model.ParameterQuery;
 import cz.cvut.fit.umati.model.QuestionList;
 import cz.cvut.fit.umati.model.QuestionListException;
 import cz.cvut.fit.umati.model.WebApiElaborated;
@@ -217,7 +218,7 @@ public class QuestionComposite extends CustomComponent {
 	private WebApiQuestion webApiQuestion;
 
 	@Autowired
-	private EndPointQuestion endPointQuestion;
+	private EndPointQueryQuestion endPointQuestion;
 
 	@Autowired
 	private ParameterQuestion parameterQuestion;
@@ -312,6 +313,9 @@ public class QuestionComposite extends CustomComponent {
 	 * TODO: doc it
 	 */
 	private void showActualQuestionFromQueue() {
+		//TODO: popremyslet jak to udelat genericky 
+		
+		
 		// Set the content from the queue (should be here?)
 		IQuestion actualEntity = questionList.getActual();
 
@@ -323,15 +327,18 @@ public class QuestionComposite extends CustomComponent {
 			MethodProperty<Integer> endPointNumberProperty = new MethodProperty<Integer>(actualWebApi, "numberOfEntities");
 			webApiQuestion.getNumericInputField().setPropertyDataSource(endPointNumberProperty);
 
+			MethodProperty<Class<? extends IEndPoint>> endPointsType = new MethodProperty<Class<? extends IEndPoint>>(actualWebApi, "subEntitiesClass");
+			webApiQuestion.getEndPointsType().setPropertyDataSource(endPointsType);
+
 			// Set to the panel
 			questionPanel.setContent(webApiQuestion);
 
 			// Set label of the step
 			nameLabel.setValue("<h3>Fill WebApi Values</h3>");
 
-		} else if (actualEntity instanceof EndPoint) {
+		} else if (actualEntity instanceof EndPointQuery) {
 			// Actual EndPoint entity
-			EndPoint actualEndPoint = (EndPoint) actualEntity;
+			EndPointQuery actualEndPoint = (EndPointQuery) actualEntity;
 
 			// Set properties
 			MethodProperty<String> endPointUrlProperty = new MethodProperty<String>(actualEndPoint, "endPointUrl");
@@ -352,9 +359,9 @@ public class QuestionComposite extends CustomComponent {
 			// Set label of the step
 			nameLabel.setValue("<h3>Fill EndPoint Values</h3>");
 
-		} else if (actualEntity instanceof Parameter) {
+		} else if (actualEntity instanceof ParameterQuery) {
 			// Actual EndPoint entity
-			Parameter actualParameter = (Parameter) actualEntity;
+			ParameterQuery actualParameter = (ParameterQuery) actualEntity;
 
 			// Set properties for parameter name
 			MethodProperty<String> parameterProperty = new MethodProperty<String>(actualParameter, "parameter");

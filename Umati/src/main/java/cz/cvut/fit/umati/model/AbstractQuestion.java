@@ -9,6 +9,11 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * TODO: doc it
 	 */
 	private int numberOfEntities;
+	
+	/**
+	 * TODO: doc it
+	 */
+	private Class<? extends T> subEntitiesClass;
 
 	/**
 	 * TODO: doc it
@@ -16,24 +21,31 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	private final List<T> subEntities = new ArrayList<T>();
 
 	/*
+	 * Getters & Setters
+	 */
+	public int getNumberOfEntities() {
+		return numberOfEntities;
+	}
+
+	public Class<? extends T> getSubEntitiesClass() {
+		return subEntitiesClass;
+	}
+
+	public void setSubEntitiesClass(Class<? extends T> subEntitiesClass) {
+		this.subEntitiesClass = subEntitiesClass;
+	}
+	
+	/*
 	 * Business methods
 	 */
 
 	/**
 	 * TODO: doc it
 	 * 
-	 * @return
-	 */
-	public int getNumberOfEntities() {
-		return numberOfEntities;
-	}
-
-	/**
-	 * TODO: doc it
-	 * 
 	 * @param parameterNumber
+	 * @throws QuestionListException 
 	 */
-	public void setNumberOfEntities(int numberOfEntities) {
+	public void setNumberOfEntities(int numberOfEntities) throws QuestionListException {
 		if (this.numberOfEntities < numberOfEntities) {
 			// It's bigger = add more elements to the field
 			int numberOfEntitiesToAdd = numberOfEntities - this.numberOfEntities;
@@ -68,16 +80,25 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 
 	/**
 	 * TODO: doc it
+	 * @throws QuestionListException 
 	 */
-	private void createToEnd() {
+	@SuppressWarnings("unchecked")
+	private void createToEnd() throws QuestionListException {
+		if (subEntitiesClass == null) {
+			
+			//TODO: tohle zpusobuje warning - existuje lepsi reseni??
+			subEntitiesClass = (Class<? extends T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+			if (subEntitiesClass.isInterface()) {
+				throw new QuestionListException("Try to instatiate interface: " + subEntitiesClass.getName() + " which is not possible");
+			}
+		}
+		
 		try {
-			@SuppressWarnings("unchecked")
-			T instance = (T) ((Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]).newInstance();
+			T instance = (T) subEntitiesClass.newInstance(); 
 			subEntities.add(instance);
-		} catch (InstantiationException e1) {
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			e1.printStackTrace();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
 		}
 	}
 

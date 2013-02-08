@@ -1,8 +1,8 @@
 package cz.cvut.fit.umati.model;
 
-import cz.cvut.fit.umati.constant.XmlDataType;
+import cz.cvut.fit.umati.constants.XmlDataType;
 
-public class Parameter implements IQuestion {
+public class ParameterQuery implements IQuestion {
 	/**
 	 * TODO: doc it
 	 */
