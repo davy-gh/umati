@@ -4,15 +4,20 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.cvut.fit.umati.ui.annotations.Map;
+import cz.cvut.fit.umati.ui.annotations.MultipleMap;
+
 public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion {
 	/**
 	 * TODO: doc it
 	 */
+	@MultipleMap(value = { @Map(viewField = "numericInputField"), @Map(viewField = "numberOfParameters") })
 	private int numberOfEntities;
 
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "endPointsType")
 	private Class<? extends T> subEntitiesClass;
 
 	/**
@@ -46,6 +51,22 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * @throws QuestionListException
 	 */
 	public void setNumberOfEntities(int numberOfEntities) throws QuestionListException {
+		// If the class is changed then clean all entities before
+		if (subEntitiesClass != null && subEntities.size() > 0) {
+			for (T subEntity : subEntities) {
+				if (!subEntitiesClass.equals(subEntity.getClass())) {
+					// Clean the queue
+					subEntities.clear();
+					
+					// Set to zero
+					this.numberOfEntities = 0;
+					
+					//...and break the cycle
+					break;
+				}
+			}
+		}
+		
 		if (this.numberOfEntities < numberOfEntities) {
 			// It's bigger = add more elements to the field
 			int numberOfEntitiesToAdd = numberOfEntities - this.numberOfEntities;

@@ -1,7 +1,12 @@
 package cz.cvut.fit.umati.model;
 
 import cz.cvut.fit.umati.constants.XmlDataType;
+import cz.cvut.fit.umati.ui.annotations.Info;
+import cz.cvut.fit.umati.ui.annotations.View;
+import cz.cvut.fit.umati.ui.composite.ParameterQueryQuestion;
 
+@View(viewClass = ParameterQueryQuestion.class)
+@Info(description = "Fill Parameter Values")
 public class ParameterQuery implements IQuestion {
 	/**
 	 * TODO: doc it

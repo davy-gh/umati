@@ -2,6 +2,15 @@ package cz.cvut.fit.umati.model;
 
 import java.net.URI;
 
+import cz.cvut.fit.umati.constants.HttpMethod;
+import cz.cvut.fit.umati.ui.annotations.Info;
+import cz.cvut.fit.umati.ui.annotations.Map;
+import cz.cvut.fit.umati.ui.annotations.View;
+import cz.cvut.fit.umati.ui.composite.EndPointPathQuestion;
+
+//TODO: prozkoumat moznost spojeni anotaciv View a Info
+@View(viewClass = EndPointPathQuestion.class)
+@Info(description = "Fill EndPoint Values")
 public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IEndPoint {
 	/**
 	 * TODO: doc it
@@ -11,16 +20,25 @@ public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IE
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "")
 	private String endPointName;
 
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "endPointDescription")
 	private String endPointDescription;
 
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "endPointMethod") 
+	private HttpMethod httpMethod;
+	
+	/**
+	 * TODO: doc it
+	 */
+	@Map(viewField = "")
 	private URI endPointUrl;
 
 	/*

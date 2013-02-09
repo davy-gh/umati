@@ -1,14 +1,18 @@
 package cz.cvut.fit.umati.model;
 
 import cz.cvut.fit.umati.constants.XmlDataType;
+import cz.cvut.fit.umati.ui.annotations.Info;
+import cz.cvut.fit.umati.ui.annotations.Map;
 import cz.cvut.fit.umati.ui.annotations.View;
 import cz.cvut.fit.umati.ui.composite.EndPointQueryQuestion;
 
 @View(viewClass = EndPointQueryQuestion.class)
+@Info(description = "Fill Parameter Values")
 public class ParameterPath implements IQuestion {
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "")
 	private String parameter;
 	
 	/**
