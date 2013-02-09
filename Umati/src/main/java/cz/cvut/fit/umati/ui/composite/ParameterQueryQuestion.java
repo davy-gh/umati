@@ -1,6 +1,7 @@
 package cz.cvut.fit.umati.ui.composite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 
 import cz.cvut.fit.umati.FreeBaseUtil;
+import cz.cvut.fit.umati.constants.XmlDataType;
 import cz.cvut.fit.umati.model.SemanticAnnotation;
 
 @org.springframework.stereotype.Component
@@ -99,6 +101,11 @@ public class ParameterQueryQuestion extends CustomComponent {
 	public ParameterQueryQuestion() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+		
+		// Parameter Type
+		BeanItemContainer<XmlDataType> xmlDataTypeContainer = new BeanItemContainer<XmlDataType>(XmlDataType.class);
+		xmlDataTypeContainer.addAll(Arrays.asList(XmlDataType.values()));
+		parameterType.setContainerDataSource(xmlDataTypeContainer);
 
 		// Search Button
 		searchButton.addListener(new ClickListener() {

@@ -354,6 +354,7 @@ public class EndPointQueryQuestion extends CustomComponent {
 		endPointDescription.setImmediate(false);
 		endPointDescription.setWidth("-1px");
 		endPointDescription.setHeight("-1px");
+		endPointDescription.setNullRepresentation("");
 		mainLayout.addComponent(endPointDescription, 1, 2);
 		
 		// numberOfParametersLabel

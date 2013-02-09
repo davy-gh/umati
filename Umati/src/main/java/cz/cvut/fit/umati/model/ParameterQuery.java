@@ -2,25 +2,29 @@ package cz.cvut.fit.umati.model;
 
 import cz.cvut.fit.umati.constants.XmlDataType;
 import cz.cvut.fit.umati.ui.annotations.Info;
+import cz.cvut.fit.umati.ui.annotations.Map;
 import cz.cvut.fit.umati.ui.annotations.View;
 import cz.cvut.fit.umati.ui.composite.ParameterQueryQuestion;
 
 @View(viewClass = ParameterQueryQuestion.class)
-@Info(description = "Fill Parameter Values")
+@Info(description = "Fill Query Parameter Values")
 public class ParameterQuery implements IQuestion {
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "parameterField")
 	private String parameter;
 	
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "parameterType")
 	private XmlDataType dataType;
 	
 	/**
 	 * TODO: doc it
 	 */
+	@Map(viewField = "parameterAnnotation")
 	private SemanticAnnotation semanticAnnotation;
 
 	/*

@@ -11,15 +11,15 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	/**
 	 * TODO: doc it
 	 */
-	@MultipleMap(value = { @Map(viewField = "numericInputField"), @Map(viewField = "numberOfParameters") })
-	private int numberOfEntities;
+	@Map(viewField = "endPointsType")
+	private Class<? extends T> entitiesClass;
 
 	/**
 	 * TODO: doc it
 	 */
-	@Map(viewField = "endPointsType")
-	private Class<? extends T> subEntitiesClass;
-
+	@MultipleMap(value = { @Map(viewField = "numericInputField"), @Map(viewField = "numberOfParameters") })
+	private int numberOfEntities;
+	
 	/**
 	 * TODO: doc it
 	 */
@@ -31,17 +31,32 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	public int getNumberOfEntities() {
 		return numberOfEntities;
 	}
-
-	public Class<? extends T> getSubEntitiesClass() {
-		return subEntitiesClass;
+	
+	public void setNumberOfEntities(int numberOfEntities) throws QuestionListException {
+		this.numberOfEntities = numberOfEntities;
+		
+		
+		// Necessary to keep in consistent state
+		rebuildObject();
 	}
 
-	public void setSubEntitiesClass(Class<? extends T> subEntitiesClass) {
-		this.subEntitiesClass = subEntitiesClass;
+	public Class<? extends T> getEntitiesClass() {
+		return entitiesClass;
 	}
 
+	public void setEntitiesClass(Class<? extends T> entitiesClass) throws QuestionListException {
+		this.entitiesClass = entitiesClass;
+		
+		// Necessary to keep in consistent state
+		rebuildObject();
+	}
+	
+	public List<T> getSubEntities() {
+		return subEntities;
+	}
+	
 	/*
-	 * Business methods
+	 * Private Business Methods
 	 */
 
 	/**
@@ -50,16 +65,13 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * @param parameterNumber
 	 * @throws QuestionListException
 	 */
-	public void setNumberOfEntities(int numberOfEntities) throws QuestionListException {
+	private void rebuildObject() throws QuestionListException {
 		// If the class is changed then clean all entities before
-		if (subEntitiesClass != null && subEntities.size() > 0) {
+		if (entitiesClass != null && subEntities.size() > 0) {
 			for (T subEntity : subEntities) {
-				if (!subEntitiesClass.equals(subEntity.getClass())) {
+				if (!entitiesClass.equals(subEntity.getClass())) {
 					// Clean the queue
 					subEntities.clear();
-					
-					// Set to zero
-					this.numberOfEntities = 0;
 					
 					//...and break the cycle
 					break;
@@ -67,37 +79,21 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 			}
 		}
 		
-		if (this.numberOfEntities < numberOfEntities) {
+		if (subEntities.size() < numberOfEntities) {
 			// It's bigger = add more elements to the field
-			int numberOfEntitiesToAdd = numberOfEntities - this.numberOfEntities;
+			int numberOfEntitiesToAdd = numberOfEntities - subEntities.size();
 
 			for (int i = 0; i < numberOfEntitiesToAdd; i++) {
 				createToEnd();
 			}
 
-		} else if (this.numberOfEntities > numberOfEntities) {
+		} else if (subEntities.size() > numberOfEntities) {
 			// Less elements in the field - remove some last fields
-			int numberOfEntitiesToRemove = this.numberOfEntities - numberOfEntities;
+			int numberOfEntitiesToRemove = subEntities.size() - numberOfEntities;
 
 			removeAllFromIndex(numberOfEntitiesToRemove);
 		}
-
-		// Remember value
-		this.numberOfEntities = numberOfEntities;
 	}
-
-	/**
-	 * TODO: doc it
-	 * 
-	 * @return
-	 */
-	public List<T> subEntities() {
-		return subEntities;
-	}
-
-	/*
-	 * Private methods
-	 */
 
 	/**
 	 * TODO: doc it
@@ -106,15 +102,15 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 */
 	@SuppressWarnings("unchecked")
 	private void createToEnd() throws QuestionListException {
-		if (subEntitiesClass == null) {
+		if (entitiesClass == null) {
 
 			// TODO: tohle zpusobuje warning - existuje lepsi reseni??
-			subEntitiesClass = (Class<? extends T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+			entitiesClass = (Class<? extends T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		}
 
-		if (!subEntitiesClass.isInterface()) {
+		if (!entitiesClass.isInterface()) {
 			try {
-				T instance = (T) subEntitiesClass.newInstance();
+				T instance = (T) entitiesClass.newInstance();
 				subEntities.add(instance);
 			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();

@@ -2,10 +2,12 @@ package cz.cvut.fit.umati.model;
 
 import java.net.URI;
 
+import cz.cvut.fit.umati.ui.annotations.Info;
 import cz.cvut.fit.umati.ui.annotations.View;
 import cz.cvut.fit.umati.ui.composite.EndPointQueryQuestion;
 
 @View(viewClass = EndPointQueryQuestion.class)
+@Info(description = "Fill EndPoint Query-Type Values")
 public class EndPointQuery extends AbstractQuestion<ParameterQuery> implements IEndPoint {
 	/**
 	 * TODO: doc it

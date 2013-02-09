@@ -13,9 +13,10 @@ public class WebApiElaborated extends AbstractQuestion<IEndPoint> {
 	 * Constructor with default value - temporary
 	 * 
 	 * TODO: is it still necessary???
+	 * @throws QuestionListException 
 	 */
-	public WebApiElaborated() {
-		setSubEntitiesClass(EndPointQuery.class);
+	public WebApiElaborated() throws QuestionListException {
+		setEntitiesClass(EndPointQuery.class);
 	}
 
 	/*

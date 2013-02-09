@@ -156,7 +156,7 @@ public class QuestionList {
 			@SuppressWarnings("unchecked")
 			AbstractQuestion<IQuestion> question = (AbstractQuestion<IQuestion>) entity;
 
-			for (IQuestion q : question.subEntities()) {
+			for (IQuestion q : question.getSubEntities()) {
 				traverse(q);
 			}
 		}

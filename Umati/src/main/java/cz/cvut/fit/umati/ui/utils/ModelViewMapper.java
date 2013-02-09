@@ -2,12 +2,12 @@ package cz.cvut.fit.umati.ui.utils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 
 import com.vaadin.data.Property;
+import com.vaadin.data.Validator.EmptyValueException;
 import com.vaadin.data.util.MethodProperty;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CustomComponent;
@@ -22,29 +22,67 @@ public class ModelViewMapper {
 	/**
 	 * TODO: doc it
 	 * 
+	 * @param applicationContext
+	 * @param model
+	 * @return
+	 */
+	public static CustomComponent findViewClass(ApplicationContext applicationContext, IQuestion model) {
+		// check and get annotation
+		if (model.getClass().isAnnotationPresent(View.class)) {
+			// Get view class from annotation in model class
+			Class<? extends CustomComponent> viewClass = model.getClass().getAnnotation(View.class).viewClass();
+
+			return applicationContext.getBean(viewClass);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * TODO: doc it
+	 * 
+	 * @param component
+	 */
+	public static void commitAll(CustomComponent component) {
+		for (Field field : component.getClass().getDeclaredFields()) {
+			if (AbstractField.class.isAssignableFrom(field.getType())) {
+				try {
+					field.setAccessible(true);
+					Object object = field.get(component);
+					if (object instanceof AbstractField) {
+						AbstractField abstractField = (AbstractField) object;
+
+						abstractField.commit();
+					}
+
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (EmptyValueException e) {
+					//TODO: validatory!!!
+					System.out.println("Validacni exception!!!!!");
+				}
+			}
+		}
+	}
+
+	/**
+	 * TODO: doc it
+	 * 
 	 * @param model
 	 * @return
 	 */
 	public static CustomComponent map(ApplicationContext applicationContext, IQuestion model) {
-		Class<? extends CustomComponent> viewClass;
-		CustomComponent view;
+		CustomComponent view = findViewClass(applicationContext, model);
 
-		// check and get annotation
-		if (model.getClass().isAnnotationPresent(View.class)) {
-			// Get view class from annotation in model class
-			viewClass = model.getClass().getAnnotation(View.class).viewClass();
-
-			// Look for actual Spring Bean
-			view = applicationContext.getBean(viewClass);
-
-			// TODO: mapping getters from view (this side is regulated) + check
-			// existence + type correcteness
+		// TODO: mapping getters from view (this side is regulated) + check
+		// existence + type correcteness
+		if (view != null) {
 			Class<?> actualClass = model.getClass();
 			while (!Object.class.equals(actualClass)) {
 
 				for (Field modelField : actualClass.getDeclaredFields()) {
 					boolean binded = false;
-					
+
 					// Check if it has getters and setters
 					PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(actualClass, modelField.getName());
 					if (propertyDescriptor == null || propertyDescriptor.getReadMethod() == null || propertyDescriptor.getWriteMethod() == null) {
@@ -57,10 +95,10 @@ public class ModelViewMapper {
 					// Try to map by MultipleMap annotation
 					if (modelField.isAnnotationPresent(MultipleMap.class) && !binded) {
 						for (Map annotation : modelField.getAnnotation(MultipleMap.class).value()) {
-							String fieldName = annotation.viewField();
+							String viewFieldName = annotation.viewField();
 
-							binded = mapModelToView(view, property, fieldName);
-							
+							binded = mapModelToView(view, property, viewFieldName);
+
 							// If binded don't have to go through
 							if (binded) {
 								break;
@@ -85,22 +123,27 @@ public class ModelViewMapper {
 			}
 
 			// Measure sucessfulness - unconnected AbstractFields !!!
-			for (PropertyDescriptor propertyDescriptor : BeanUtils.getPropertyDescriptors(viewClass)) {
-				if (AbstractField.class.isAssignableFrom(propertyDescriptor.getPropertyType())) {
+			for (Field viewField : view.getClass().getDeclaredFields()) {
+				if (AbstractField.class.isAssignableFrom(viewField.getType())) {
 					try {
-						Object object = propertyDescriptor.getReadMethod().invoke(view, (Object[]) null);
+						viewField.setAccessible(true);
+						Object object = viewField.get(view);
 						if (object instanceof AbstractField) {
-							AbstractField field = (AbstractField) object;
+							AbstractField abstractField = (AbstractField) object;
 
-							if (field.getPropertyDataSource() != null) {
-								System.out.println("Field: " + propertyDescriptor.getName() + " is binded succesfully");
+							if (abstractField.getPropertyDataSource() != null) {
+								System.out.println("Field: " + viewField.getName() + " is binded succesfully");
 							} else {
-								System.out.println("Field: " + propertyDescriptor.getName() + " is NOT binded");
+								System.out.println("Field: " + viewField.getName() + " is NOT binded");
+								abstractField.setEnabled(false);
 							}
 						}
 
-					} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+					} catch (IllegalArgumentException | IllegalAccessException e) {
 						e.printStackTrace();
+					} catch (EmptyValueException e) {
+						//TODO: validatory!!!
+						System.out.println("Validacni exception!!!!!");
 					}
 				}
 			}
@@ -132,21 +175,19 @@ public class ModelViewMapper {
 	 * @return
 	 */
 	private static boolean mapModelToView(CustomComponent view, Property property, String fieldName) {
-		PropertyDescriptor viewField = BeanUtils.getPropertyDescriptor(view.getClass(), fieldName);
-
-		if (viewField == null) {
-			return false;
-		}
-
 		try {
-			Object abstractFieldObject = viewField.getReadMethod().invoke(view, (Object[]) null);
+			Field field = view.getClass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+
+			// Get the value
+			Object abstractFieldObject = field.get(view);
 
 			// Check for right data type
 			if (abstractFieldObject instanceof AbstractField) {
 				AbstractField abstractField = (AbstractField) abstractFieldObject;
 				abstractField.setPropertyDataSource(property);
 			}
-		} catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
 			return false;
 		}
 

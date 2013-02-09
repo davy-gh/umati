@@ -114,6 +114,19 @@ public class WebApi {
 	 * Business methods
 	 */
 	public int getCorrespondenceElementNumber() {
+//		//TODO: create correspondance - now only sum
+//		int sumOfElements;
+//		
+//		for (WebApiElaborated webApiElaborated : webApiElaboratedList) {
+//			AbstractQuestion<?> actualQuestionModel = webApiElaborated;
+//			
+//			sumOfElements += actualQuestionModel.getNumberOfEntities();
+//			
+//			for (AbstractQuestion<?> actualQuestionModel.getSubEntities()) {
+//				
+//			}
+//		}
+		
 		return 0;
 	}
 

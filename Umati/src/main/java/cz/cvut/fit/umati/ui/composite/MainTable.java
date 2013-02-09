@@ -20,6 +20,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import cz.cvut.fit.umati.InMemoryUserData;
 import cz.cvut.fit.umati.InMemoryWebApiData;
+import cz.cvut.fit.umati.model.QuestionListException;
 import cz.cvut.fit.umati.model.User;
 import cz.cvut.fit.umati.model.WebApi;
 import cz.cvut.fit.umati.model.WebApiElaborated;
@@ -226,7 +227,11 @@ public class MainTable extends CustomComponent {
 			
 			if (actualWebApiElaborated == null) {
 				// Create new WebApiElaborated
-				actualWebApiElaborated = new WebApiElaborated();
+				try {
+					actualWebApiElaborated = new WebApiElaborated();
+				} catch (QuestionListException e) {
+					e.printStackTrace();
+				}
 
 				// Find actual user from user list
 				for (User user : inMemoryUserData.getItemIds()) {

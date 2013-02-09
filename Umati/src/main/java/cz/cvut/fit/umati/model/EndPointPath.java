@@ -10,8 +10,8 @@ import cz.cvut.fit.umati.ui.composite.EndPointPathQuestion;
 
 //TODO: prozkoumat moznost spojeni anotaciv View a Info
 @View(viewClass = EndPointPathQuestion.class)
-@Info(description = "Fill EndPoint Values")
-public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IEndPoint {
+@Info(description = "Fill EndPoint Path-Type Values")
+public class EndPointPath extends AbstractQuestion<ParameterPath> implements IEndPoint {
 	/**
 	 * TODO: doc it
 	 */
@@ -20,7 +20,7 @@ public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IE
 	/**
 	 * TODO: doc it
 	 */
-	@Map(viewField = "")
+	@Map(viewField = "endPointName")
 	private String endPointName;
 
 	/**
@@ -38,7 +38,7 @@ public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IE
 	/**
 	 * TODO: doc it
 	 */
-	@Map(viewField = "")
+	@Map(viewField = "endPointUrl")
 	private URI endPointUrl;
 
 	/*
@@ -58,6 +58,14 @@ public class EndPointPath extends AbstractQuestion<ParameterQuery> implements IE
 
 	public void setEndPointDescription(String endPointDescription) {
 		this.endPointDescription = endPointDescription;
+	}
+
+	public HttpMethod getHttpMethod() {
+		return httpMethod;
+	}
+
+	public void setHttpMethod(HttpMethod httpMethod) {
+		this.httpMethod = httpMethod;
 	}
 
 	public URI getEndPointUrl() {
