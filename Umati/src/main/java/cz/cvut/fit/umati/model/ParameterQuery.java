@@ -53,4 +53,14 @@ public class ParameterQuery implements IQuestion {
 	public void setSemanticAnnotation(SemanticAnnotation semanticAnnotation) {
 		this.semanticAnnotation = semanticAnnotation;
 	}
+	
+	@Override
+	public int getNumberOfEntities() {
+		return 0;
+	}
+
+	@Override
+	public int getTotalCountOfSubEntities() {
+		return 0;
+	}
 }

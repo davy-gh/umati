@@ -13,7 +13,7 @@ public class WebApi {
 	public static final String CATEGORY = "category";
 	public static final String API_URL = "apiUrl";
 	public static final String DOC_URL = "docUrl";
-	public static final String CORRESPONDENCE_ELEMENT_NUMBER  = "correspondenceElementNumber";
+	public static final String CORRESPONDENCE_ELEMENT_NUMBER = "correspondenceElementNumber";
 	public static final String CORRESPONDENCE_TYPE_DEFINITION = "correspondenceTypeDefinition";
 	public static final String CORRESPONDENCE_SEMANTIC_ANNOTATION = "correspondenceSemanticAnnotation";
 	public static final String TOTAL_PROGRESS = "totalProgress";
@@ -49,16 +49,20 @@ public class WebApi {
 	/**
 	 * TODO: doc it
 	 */
+	private WebApiElaborated referenceWebApi;
+
+	/**
+	 * TODO: doc it
+	 */
 	private List<WebApiElaborated> webApiElaboratedList;
 
-	
 	/*
 	 * Constructor
 	 */
 	public WebApi() {
 		webApiElaboratedList = new ArrayList<WebApiElaborated>();
 	}
-	
+
 	/*
 	 * Getters & Setters
 	 */
@@ -110,31 +114,34 @@ public class WebApi {
 		this.category = category;
 	}
 
+	public WebApiElaborated getReferenceWebApi() {
+		return referenceWebApi;
+	}
+
+	public void setReferenceWebApi(WebApiElaborated referenceWebApi) {
+		this.referenceWebApi = referenceWebApi;
+	}
+
 	/*
 	 * Business methods
 	 */
 	public int getCorrespondenceElementNumber() {
-//		//TODO: create correspondance - now only sum
-//		int sumOfElements;
-//		
-//		for (WebApiElaborated webApiElaborated : webApiElaboratedList) {
-//			AbstractQuestion<?> actualQuestionModel = webApiElaborated;
-//			
-//			sumOfElements += actualQuestionModel.getNumberOfEntities();
-//			
-//			for (AbstractQuestion<?> actualQuestionModel.getSubEntities()) {
-//				
-//			}
-//		}
+		int totalCount = 0;
 		
-		return 0;
+		for (WebApiElaborated entity : webApiElaboratedList) {
+			totalCount += entity.getTotalCountOfSubEntities();
+		}
+		
+		return totalCount;
 	}
 
 	public int getCorrespondenceTypeDefinition() {
+		//TODO: just for parameters
 		return 0;
 	}
 
 	public int getCorrespondenceSemanticAnnotation() {
+		//TODO: just for parameters
 		return 0;
 	}
 

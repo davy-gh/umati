@@ -131,4 +131,18 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 			}
 		}
 	}
+	
+	/**
+	 * TODO: doc it
+	 */
+	@Override
+	public int getTotalCountOfSubEntities() {
+		int totalCount = subEntities.size();
+		
+		for (T entity : subEntities) {
+			totalCount += entity.getTotalCountOfSubEntities();
+		}
+		
+		return totalCount;
+	}
 }

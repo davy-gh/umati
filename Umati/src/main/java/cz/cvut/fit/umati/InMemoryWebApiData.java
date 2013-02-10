@@ -74,4 +74,11 @@ public class InMemoryWebApiData extends BeanItemContainer<WebApi> {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	public void fireUpdate() {
+		fireItemSetChange();
+	}
 }
