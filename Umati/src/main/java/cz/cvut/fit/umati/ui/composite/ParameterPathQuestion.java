@@ -148,6 +148,9 @@ public class ParameterPathQuestion extends CustomComponent {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
+		// Search Field
+		searchField.setPropertyDataSource(new ObjectProperty<String>(""));
+		
 		// TODO: vyrobit skryvani
 		//TODO: brat v uvahu fragmenty!!!
 		BeanItemContainer<ParameterType> endPointMethodContainer = new BeanItemContainer<ParameterType>(ParameterType.class, Arrays.asList(ParameterType.values()));
