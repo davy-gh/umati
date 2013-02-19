@@ -4,6 +4,10 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import cz.cvut.fit.umati.ui.annotations.Map;
 import cz.cvut.fit.umati.ui.annotations.MultipleMap;
 
@@ -18,6 +22,9 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * TODO: doc it
 	 */
 	@MultipleMap(value = { @Map(viewField = "numericInputField"), @Map(viewField = "numberOfParameters") })
+	@NotNull
+	@Min(value = 1)
+	@Max(value = 100)
 	private int numberOfEntities;
 	
 	/**

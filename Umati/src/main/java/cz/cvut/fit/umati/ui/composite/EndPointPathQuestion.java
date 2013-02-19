@@ -349,6 +349,7 @@ public class EndPointPathQuestion extends CustomComponent {
 		endPointUrl.setWidth("100.0%");
 		endPointUrl.setHeight("-1px");
 		endPointUrl.setRequired(true);
+		endPointUrl.setRequiredError("EndPoint URL must be filled");
 		endPointUrl.setNullRepresentation("");
 		mainLayout.addComponent(endPointUrl, 1, 0);
 		
@@ -398,6 +399,7 @@ public class EndPointPathQuestion extends CustomComponent {
 		// endPointMethod
 		endPointMethod = new ComboBox();
 		endPointMethod.setImmediate(false);
+		endPointMethod.setNullSelectionAllowed(false);
 		endPointMethod.setWidth("-1px");
 		endPointMethod.setHeight("-1px");
 		mainLayout.addComponent(endPointMethod, 1, 3);
@@ -417,6 +419,8 @@ public class EndPointPathQuestion extends CustomComponent {
 		numberOfParameters.setWidth("50px");
 		numberOfParameters.setHeight("-1px");
 		numberOfParameters.setNullRepresentation("0");
+		numberOfParameters.setRequired(true);
+		numberOfParameters.setRequiredError("Number of Parameters must be filled");
 		mainLayout.addComponent(numberOfParameters, 1, 4);
 		
 		return mainLayout;

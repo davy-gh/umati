@@ -283,6 +283,12 @@ public class EndPointQueryQuestion extends CustomComponent {
 	public EndPointQueryQuestion() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+
+		// Set EndPoint URL
+		endPointUrl.setRequiredError("URL must be filled");
+
+		// Set Number Of Preferences
+		numberOfParameters.setRequiredError("Number of Parameters must be filled");
 	}
 
 	/*
@@ -372,6 +378,7 @@ public class EndPointQueryQuestion extends CustomComponent {
 		numberOfParameters.setWidth("50px");
 		numberOfParameters.setHeight("-1px");
 		numberOfParameters.setNullRepresentation("0");
+		numberOfParameters.setRequired(true);
 		mainLayout.addComponent(numberOfParameters, 1, 3);
 		
 		return mainLayout;

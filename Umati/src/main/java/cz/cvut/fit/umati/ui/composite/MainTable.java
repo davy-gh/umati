@@ -276,7 +276,6 @@ public class MainTable extends CustomComponent {
 					webApi.setReferenceWebApi(new WebApiElaborated());
 				}
 			} catch (QuestionListException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

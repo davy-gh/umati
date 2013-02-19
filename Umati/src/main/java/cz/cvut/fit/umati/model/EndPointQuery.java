@@ -1,6 +1,7 @@
 package cz.cvut.fit.umati.model;
 
-import java.net.URI;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import cz.cvut.fit.umati.ui.annotations.Info;
 import cz.cvut.fit.umati.ui.annotations.View;
@@ -27,7 +28,9 @@ public class EndPointQuery extends AbstractQuestion<ParameterQuery> implements I
 	/**
 	 * TODO: doc it
 	 */
-	private URI endPointUrl;
+	@NotBlank
+	@URL
+	private String endPointUrl;
 
 	/*
 	 * Getters & Setters
@@ -48,11 +51,11 @@ public class EndPointQuery extends AbstractQuestion<ParameterQuery> implements I
 		this.endPointDescription = endPointDescription;
 	}
 
-	public URI getEndPointUrl() {
+	public String getEndPointUrl() {
 		return endPointUrl;
 	}
 
-	public void setEndPointUrl(URI endPointUrl) {
+	public void setEndPointUrl(String endPointUrl) {
 		this.endPointUrl = endPointUrl;
 	}
 }

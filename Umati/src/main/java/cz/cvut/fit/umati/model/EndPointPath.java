@@ -1,6 +1,7 @@
 package cz.cvut.fit.umati.model;
 
-import java.net.URI;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import cz.cvut.fit.umati.constants.HttpMethod;
 import cz.cvut.fit.umati.ui.annotations.Info;
@@ -39,8 +40,17 @@ public class EndPointPath extends AbstractQuestion<ParameterPath> implements IEn
 	 * TODO: doc it
 	 */
 	@Map(viewField = "endPointUrl")
-	private URI endPointUrl;
+	@NotBlank
+	@URL
+	private String endPointUrl;
 
+	/*
+	 * Constructor
+	 */
+	public EndPointPath() {
+		httpMethod = HttpMethod.GET;
+	}
+	
 	/*
 	 * Getters & Setters
 	 */
@@ -68,11 +78,11 @@ public class EndPointPath extends AbstractQuestion<ParameterPath> implements IEn
 		this.httpMethod = httpMethod;
 	}
 
-	public URI getEndPointUrl() {
+	public String getEndPointUrl() {
 		return endPointUrl;
 	}
 
-	public void setEndPointUrl(URI endPointUrl) {
+	public void setEndPointUrl(String endPointUrl) {
 		this.endPointUrl = endPointUrl;
 	}
 }

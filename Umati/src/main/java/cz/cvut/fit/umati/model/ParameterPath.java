@@ -1,5 +1,7 @@
 package cz.cvut.fit.umati.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import cz.cvut.fit.umati.constants.ParameterType;
 import cz.cvut.fit.umati.constants.XmlDataType;
 import cz.cvut.fit.umati.ui.annotations.Info;
@@ -14,25 +16,33 @@ public class ParameterPath implements IQuestion {
 	 * TODO: doc it
 	 */
 	@Map(viewField = "parameterName")
+	@NotBlank
 	private String parameter;
-	
+
 	/**
 	 * TODO: doc it
 	 */
 	@Map(viewField = "parameterType")
 	private ParameterType parameterType;
-	
+
 	/**
 	 * TODO: doc it
 	 */
 	@Map(viewField = "parameterDataType")
 	private XmlDataType dataType;
-	
+
 	/**
 	 * TODO: doc it
 	 */
 	@Map(viewField = "parameterAnnotation")
 	private SemanticAnnotation semanticAnnotation;
+
+	/*
+	 * Constructor
+	 */
+	public ParameterPath() {
+		parameterType = ParameterType.VARIABLE;
+	}
 
 	/*
 	 * Getters & Setters
@@ -68,7 +78,7 @@ public class ParameterPath implements IQuestion {
 	public void setSemanticAnnotation(SemanticAnnotation semanticAnnotation) {
 		this.semanticAnnotation = semanticAnnotation;
 	}
-	
+
 	@Override
 	public int getNumberOfEntities() {
 		return 0;

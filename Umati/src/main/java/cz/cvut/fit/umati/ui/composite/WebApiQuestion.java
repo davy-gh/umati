@@ -185,6 +185,8 @@ public class WebApiQuestion extends CustomComponent {
 		numericInputField.setWidth("-1px");
 		numericInputField.setHeight("-1px");
 		numericInputField.setWriteThrough(false);
+		numericInputField.setRequired(true);
+		numericInputField.setRequiredError("Number of EndPoints must be filled");
 		numericInputField.setNullRepresentation("0");
 		mainLayout.addComponent(numericInputField, 1, 1);
 		

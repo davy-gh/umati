@@ -2,12 +2,16 @@ package cz.cvut.fit.umati.ui.utils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 
+import com.vaadin.addon.beanvalidation.BeanValidationValidator;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.EmptyValueException;
+import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.util.MethodProperty;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CustomComponent;
@@ -22,46 +26,41 @@ public class ModelViewMapper {
 	/**
 	 * TODO: doc it
 	 * 
-	 * @param applicationContext
-	 * @param model
-	 * @return
-	 */
-	public static CustomComponent findViewClass(ApplicationContext applicationContext, IQuestion model) {
-		// check and get annotation
-		if (model.getClass().isAnnotationPresent(View.class)) {
-			// Get view class from annotation in model class
-			Class<? extends CustomComponent> viewClass = model.getClass().getAnnotation(View.class).viewClass();
-
-			return applicationContext.getBean(viewClass);
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * TODO: doc it
-	 * 
 	 * @param component
 	 */
-	public static void commitAll(CustomComponent component) {
+	public static void commitAll(CustomComponent component) throws EmptyValueException {
+		List<AbstractField> fieldList = new ArrayList<AbstractField>();
+
 		for (Field field : component.getClass().getDeclaredFields()) {
 			if (AbstractField.class.isAssignableFrom(field.getType())) {
 				try {
 					field.setAccessible(true);
 					Object object = field.get(component);
 					if (object instanceof AbstractField) {
-						AbstractField abstractField = (AbstractField) object;
-
-						abstractField.commit();
+						fieldList.add((AbstractField) object);
 					}
 
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
-				} catch (EmptyValueException e) {
-					//TODO: validatory!!!
-					System.out.println("Validacni exception!!!!!");
 				}
 			}
+		}
+
+		// Test validation
+		for (AbstractField abstractField : fieldList) {
+			try {
+				abstractField.validate();
+				// for (Validator v : abstractField.getValidators()) {
+				// v.validate(null);
+				// }
+			} catch (InvalidValueException e) {
+				throw e;
+			}
+		}
+
+		// Finally, commit all
+		for (AbstractField abstractField : fieldList) {
+			abstractField.commit();
 		}
 	}
 
@@ -74,48 +73,50 @@ public class ModelViewMapper {
 	public static CustomComponent map(ApplicationContext applicationContext, IQuestion model) {
 		CustomComponent view = findViewClass(applicationContext, model);
 
-		// TODO: mapping getters from view (this side is regulated) + check
-		// existence + type correcteness
+		// mapping getters from view (this side is regulated) + check existence
+		// + type correcteness
 		if (view != null) {
 			Class<?> actualClass = model.getClass();
 			while (!Object.class.equals(actualClass)) {
 
 				for (Field modelField : actualClass.getDeclaredFields()) {
-					boolean binded = false;
-
 					// Check if it has getters and setters
 					PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(actualClass, modelField.getName());
 					if (propertyDescriptor == null || propertyDescriptor.getReadMethod() == null || propertyDescriptor.getWriteMethod() == null) {
 						continue;
 					}
 
-					// Prepare property
-					Property property = createProperty(model, modelField.getName());
+					/*
+					 * Find appropriate abstract field
+					 */
 
-					// Try to map by MultipleMap annotation
-					if (modelField.isAnnotationPresent(MultipleMap.class) && !binded) {
-						for (Map annotation : modelField.getAnnotation(MultipleMap.class).value()) {
-							String viewFieldName = annotation.viewField();
+					// View Abstract Field
+					AbstractField abstractField = findViewField(view, modelField);
 
-							binded = mapModelToView(view, property, viewFieldName);
-
-							// If binded don't have to go through
-							if (binded) {
+					if (abstractField == null) {
+						for (CustomComponent viewComponent : findAllSubView(view)) {
+							abstractField = findViewField(viewComponent, modelField);
+							
+							if (abstractField != null) {
 								break;
 							}
 						}
 					}
 
-					// Try to map by Map annotation
-					if (modelField.isAnnotationPresent(Map.class) && !binded) {
-						String fieldName = modelField.getAnnotation(Map.class).viewField();
+					/*
+					 * Bind property & Extra features
+					 */
+					if (abstractField != null) {
+						// Prepare property
+						Property property = createProperty(model, modelField.getName());
 
-						binded = mapModelToView(view, property, fieldName);
-					}
+						// Bind property to abstractField
+						abstractField.setPropertyDataSource(property);
 
-					// Try to map by name equivalence
-					if (!binded) {
-						binded = mapModelToView(view, property, modelField.getName());
+						// Bind validator
+						abstractField.removeAllValidators();
+						BeanValidationValidator validator = new BeanValidationValidator(model.getClass(), modelField.getName());
+						abstractField.addValidator(validator);
 					}
 				}
 
@@ -142,7 +143,7 @@ public class ModelViewMapper {
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 						e.printStackTrace();
 					} catch (EmptyValueException e) {
-						//TODO: validatory!!!
+						// TODO: validatory!!!
 						System.out.println("Validacni exception!!!!!");
 					}
 				}
@@ -152,6 +153,25 @@ public class ModelViewMapper {
 		} else {
 			return null;
 
+		}
+	}
+
+	/**
+	 * TODO: doc it
+	 * 
+	 * @param applicationContext
+	 * @param model
+	 * @return
+	 */
+	public static CustomComponent findViewClass(ApplicationContext applicationContext, IQuestion model) {
+		// check and get annotation
+		if (model.getClass().isAnnotationPresent(View.class)) {
+			// Get view class from annotation in model class
+			Class<? extends CustomComponent> viewClass = model.getClass().getAnnotation(View.class).viewClass();
+
+			return applicationContext.getBean(viewClass);
+		} else {
+			return null;
 		}
 	}
 
@@ -170,11 +190,83 @@ public class ModelViewMapper {
 	 * TODO: doc it
 	 * 
 	 * @param view
-	 * @param property
+	 * @return
+	 */
+	private static List<CustomComponent> findAllSubView(CustomComponent view) {
+		List<CustomComponent> subViewList = new ArrayList<CustomComponent>();
+
+		// Breath-First traverse
+		for (Field field : view.getClass().getDeclaredFields()) {
+			if (field.getType().equals(CustomComponent.class)) {
+				try {
+					CustomComponent viewComponent = (CustomComponent) field.get(view);
+
+					subViewList.add(viewComponent);
+					subViewList.addAll(findAllSubView(viewComponent));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return subViewList;
+	}
+
+	/**
+	 * TODO: doc it
+	 * 
+	 * @param view
 	 * @param fieldName
 	 * @return
 	 */
-	private static boolean mapModelToView(CustomComponent view, Property property, String fieldName) {
+	private static AbstractField findViewField(CustomComponent view, Field modelField) {
+		// Name of view field
+		String viewFieldName = null;
+
+		// View Abstract Field
+		AbstractField abstractField = null;
+
+		// Try to map by MultipleMap annotation
+		if (modelField.isAnnotationPresent(MultipleMap.class) && abstractField == null) {
+			for (Map annotation : modelField.getAnnotation(MultipleMap.class).value()) {
+				viewFieldName = annotation.viewField();
+
+				abstractField = findViewFieldInClass(view, viewFieldName);
+
+				// If binded don't have to go through
+				if (abstractField != null) {
+					break;
+				}
+			}
+		}
+
+		// Try to map by Map annotation
+		if (modelField.isAnnotationPresent(Map.class) && abstractField == null) {
+			viewFieldName = modelField.getAnnotation(Map.class).viewField();
+
+			abstractField = findViewFieldInClass(view, viewFieldName);
+		}
+
+		// Try to map by name equivalence
+		if (abstractField == null) {
+			viewFieldName = modelField.getName();
+
+			abstractField = findViewFieldInClass(view, viewFieldName);
+		}
+
+		return abstractField;
+	}
+
+	/**
+	 * TODO: doc it
+	 * 
+	 * @param view
+	 * @param fieldName
+	 * @return
+	 */
+	private static AbstractField findViewFieldInClass(CustomComponent view, String fieldName) {
+		AbstractField abstractField = null;
+
 		try {
 			Field field = view.getClass().getDeclaredField(fieldName);
 			field.setAccessible(true);
@@ -184,14 +276,14 @@ public class ModelViewMapper {
 
 			// Check for right data type
 			if (abstractFieldObject instanceof AbstractField) {
-				AbstractField abstractField = (AbstractField) abstractFieldObject;
-				abstractField.setPropertyDataSource(property);
+				abstractField = (AbstractField) abstractFieldObject;
+			} else {
+				return null;
 			}
-		} catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-			return false;
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			return null;
 		}
 
-		// If everythink is ok, return true
-		return true;
+		return abstractField;
 	}
 }
