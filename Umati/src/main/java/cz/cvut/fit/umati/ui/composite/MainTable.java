@@ -124,7 +124,7 @@ public class MainTable extends CustomComponent {
 		// Setup table
 		mainTable.setSelectable(true);
 		mainTable.setImmediate(true);
-		mainTable.setVisibleColumns(new Object[] { WebApi.NAME, WebApi.DESCRIPTION, WebApi.CATEGORY, WebApi.DOC_URL, WebApi.API_URL, WebApi.CORRESPONDENCE_ELEMENT_NUMBER, WebApi.CORRESPONDENCE_TYPE_DEFINITION, WebApi.CORRESPONDENCE_SEMANTIC_ANNOTATION, WebApi.TOTAL_PROGRESS });
+		mainTable.setVisibleColumns(new Object[] { WebApi.NAME, WebApi.DESCRIPTION, WebApi.CATEGORY, WebApi.DOC_URL, WebApi.API_URL, WebApi.REFERENCE, WebApi.CORRESPONDENCE_ELEMENT_NUMBER, WebApi.CORRESPONDENCE_TYPE_DEFINITION, WebApi.CORRESPONDENCE_SEMANTIC_ANNOTATION, WebApi.TOTAL_PROGRESS });
 		mainTable.addListener(new Property.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -234,31 +234,13 @@ public class MainTable extends CustomComponent {
 
 		if (mainTable.getValue() instanceof WebApi) {
 			WebApi webApi = (WebApi) mainTable.getValue();
-
-			for (WebApiElaborated webApiElaborated : webApi.getWebApiElaboratedList()) {
-				if (webApiElaborated.getUser().getUserName().equals(auth.getName())) {
-					actualWebApiElaborated = webApiElaborated;
+			
+			// Find actual user from user list
+			for (User user : inMemoryUserData.getItemIds()) {
+				if (auth.getName().equals(user.getUserName())) {
+					webApi.getWebApiForUser(user);
 					break;
 				}
-			}
-
-			if (actualWebApiElaborated == null) {
-				// Create new WebApiElaborated
-				try {
-					actualWebApiElaborated = new WebApiElaborated();
-				} catch (QuestionListException e) {
-					e.printStackTrace();
-				}
-
-				// Find actual user from user list
-				for (User user : inMemoryUserData.getItemIds()) {
-					if (auth.getName().equals(user.getUserName())) {
-						actualWebApiElaborated.setUser(user);
-					}
-				}
-
-				// Add to the list of APIs
-				webApi.getWebApiElaboratedList().add(actualWebApiElaborated);
 			}
 		}
 

@@ -3,10 +3,17 @@ package cz.cvut.fit.umati.model;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.metadata.BeanDescriptor;
+import javax.validation.metadata.PropertyDescriptor;
 
 import cz.cvut.fit.umati.ui.annotations.Map;
 import cz.cvut.fit.umati.ui.annotations.MultipleMap;
@@ -143,13 +150,31 @@ public abstract class AbstractQuestion<T extends IQuestion> implements IQuestion
 	 * TODO: doc it
 	 */
 	@Override
-	public int getTotalCountOfSubEntities() {
+	public int countSubEntities() {
 		int totalCount = subEntities.size();
 		
 		for (T entity : subEntities) {
-			totalCount += entity.getTotalCountOfSubEntities();
+			totalCount += entity.countSubEntities();
 		}
 		
 		return totalCount;
+	}
+	
+	public int countCompletedFields() {
+		int countFields = 0;
+		
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		
+		BeanDescriptor constraintViolations = validator.getConstraintsForClass(this.getClass());
+		for (PropertyDescriptor property : constraintViolations.getConstrainedProperties()) {
+			System.out.println("Property name: " + property.getPropertyName());
+		}
+
+		for (T entity : subEntities) {
+			countFields += entity.countCompletedFields();
+		}
+		
+		return countFields;
 	}
 }

@@ -17,6 +17,7 @@ public class WebApi {
 	public static final String CORRESPONDENCE_TYPE_DEFINITION = "correspondenceTypeDefinition";
 	public static final String CORRESPONDENCE_SEMANTIC_ANNOTATION = "correspondenceSemanticAnnotation";
 	public static final String TOTAL_PROGRESS = "totalProgress";
+	public static final String REFERENCE = "reference";
 
 	/*
 	 * Fields
@@ -125,11 +126,19 @@ public class WebApi {
 	/*
 	 * Business methods
 	 */
+	public boolean isReference() {
+		if (referenceWebApi != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public int getCorrespondenceElementNumber() {
 		int totalCount = 0;
 		
 		for (WebApiElaborated entity : webApiElaboratedList) {
-			totalCount += entity.getTotalCountOfSubEntities();
+			totalCount += entity.countSubEntities();
 		}
 		
 		return totalCount;
@@ -146,6 +155,41 @@ public class WebApi {
 	}
 
 	public int getTotalProgress() {
-		return 0;
+		int totalCount = 0;
+		
+		for (WebApiElaborated entity : webApiElaboratedList) {
+			totalCount += entity.countSubEntities();
+		}
+		
+		return totalCount;
+	}
+	
+	/*
+	 * Private methods
+	 */
+	public WebApiElaborated getWebApiForUser(User user) {
+		WebApiElaborated actualWebApiElaborated = null;
+		
+		for (WebApiElaborated webApiElaborated : getWebApiElaboratedList()) {
+			if (webApiElaborated.getUser().getUserName().equals(user.getUserName())) {
+				actualWebApiElaborated = webApiElaborated;
+				break;
+			}
+		}
+
+		if (actualWebApiElaborated == null) {
+			// Create new WebApiElaborated
+			try {
+				actualWebApiElaborated = new WebApiElaborated();
+				actualWebApiElaborated.setUser(user);
+			} catch (QuestionListException e) {
+				e.printStackTrace();
+			}
+
+			// Add to the list of APIs
+			getWebApiElaboratedList().add(actualWebApiElaborated);
+		}
+		
+		return actualWebApiElaborated;
 	}
 }

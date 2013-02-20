@@ -50,9 +50,6 @@ public class ModelViewMapper {
 		for (AbstractField abstractField : fieldList) {
 			try {
 				abstractField.validate();
-				// for (Validator v : abstractField.getValidators()) {
-				// v.validate(null);
-				// }
 			} catch (InvalidValueException e) {
 				throw e;
 			}

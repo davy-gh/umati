@@ -71,12 +71,13 @@ public class ParameterQuery implements IQuestion {
 	}
 
 	@Override
-	public int getNumberOfEntities() {
+	public int countSubEntities() {
 		return 0;
 	}
 
 	@Override
-	public int getTotalCountOfSubEntities() {
+	public int countCompletedFields() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 }
