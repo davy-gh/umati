@@ -238,7 +238,7 @@ public class MainTable extends CustomComponent {
 			// Find actual user from user list
 			for (User user : inMemoryUserData.getItemIds()) {
 				if (auth.getName().equals(user.getUserName())) {
-					webApi.getWebApiForUser(user);
+					actualWebApiElaborated = webApi.getWebApiForUser(user);
 					break;
 				}
 			}
